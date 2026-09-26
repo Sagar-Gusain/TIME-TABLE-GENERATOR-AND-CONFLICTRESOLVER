@@ -6,11 +6,8 @@ using namespace std;
 
 struct Subject {
     int id;
-    int teacherId;
-    int sectionId;
-    int lecturesPerWeek;
     string name;
-    bool requiresLab;
+    int lecturesPerWeek;
 };
 
 #endif

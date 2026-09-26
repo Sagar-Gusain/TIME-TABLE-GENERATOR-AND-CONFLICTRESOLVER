@@ -7,6 +7,7 @@ using namespace std;
 struct Teacher {
     int id;
     string name;
+    int subjectId;
 };
 
 #endif
