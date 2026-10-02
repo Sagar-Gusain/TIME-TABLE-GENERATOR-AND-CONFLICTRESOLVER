@@ -1,15 +1,16 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
-#include "model/Subjects.h"
-#include "model/Teacher.h"
-#include "model/Sections.h"
-#include "model/Class.h"
-#include "model/Room.h"
-
 using namespace std;
 
+
+// Global variables from main.cpp
+
+extern vector<Subject> subjects;
+extern vector<Teacher> teachers;
+extern vector<Section> sections;
+extern vector<string> slots;
+extern vector<vector<Class>> timetable;
 //--------Refrence------------//
 // timetable taking row=sections and col=slots
 // timetable[section][slot]
@@ -76,13 +77,21 @@ bool isValid(int section, int slot, int subjectId)
     }
     return true;
 }
+bool generate(int section, int slot)
+{
+    if (section == sections.size()) {
+        return true;
+    }
+    if (slot == slots.size()) {
+        return generate(section + 1, 0);
+    }
 
-bool generate(int section, int slot){
-    // Try every subject
     for (int i = 0; i < subjects.size(); i++) {
 
         int subjectId = subjects[i].id;
+
         if (isValid(section, slot, subjectId)) {
+
             int teacherId = findTeacher(subjectId);
 
             timetable[section][slot].subjectId = subjectId;
@@ -91,6 +100,7 @@ bool generate(int section, int slot){
             if (generate(section, slot + 1)) {
                 return true;
             }
+
             // Backtrack
             timetable[section][slot].subjectId = -1;
             timetable[section][slot].teacherId = -1;

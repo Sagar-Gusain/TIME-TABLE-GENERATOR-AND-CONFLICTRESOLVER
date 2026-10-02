@@ -1,6 +1,3 @@
-#ifndef TEACHER_H
-#define TEACHER_H
-
 #include <string>
 using namespace std;
 
@@ -9,5 +6,3 @@ struct Teacher {
     string name;
     int subjectId;
 };
-
-#endif
