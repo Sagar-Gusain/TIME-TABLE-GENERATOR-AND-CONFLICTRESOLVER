@@ -15,6 +15,7 @@ using namespace std;
 vector<Subject> subjects;
 vector<Teacher> teachers;
 vector<Section> sections;
+vector<Room> rooms;
 
 vector<string> slots = {
     "8-9", "9-10", "10-11", "11-12",
@@ -42,6 +43,12 @@ int main() {
     subjects.push_back({3, "Mathematics", 4});
     subjects.push_back({4, "Computer Networks", 3});
 
+    // ---------------- ROOMS ----------------
+
+rooms.push_back({1, "Room 101", false});
+rooms.push_back({2, "Room 102", false});
+rooms.push_back({3, "Lab 1", true});
+
 
     // ---------------- SECTIONS ----------------
 
@@ -51,19 +58,19 @@ int main() {
 
     // ---------------- INITIALIZE TIMETABLE ----------------
 
-    timetable.resize(sections.size());
+   timetable.resize(sections.size());
 
-    for (int i = 0; i < sections.size(); i++) {
-        timetable[i].resize(slots.size());
-    }
-    
-    for (int i = 0; i < sections.size(); i++) {
+for (int i = 0; i < sections.size(); i++) {
+    timetable[i].resize(slots.size());
+}
+
+for (int i = 0; i < sections.size(); i++) {
     for (int j = 0; j < slots.size(); j++) {
         timetable[i][j].subjectId = -1;
         timetable[i][j].teacherId = -1;
+        timetable[i][j].roomId = -1;
     }
 }
-
 
     // ---------------- DISPLAY INPUT DATA ----------------
 
