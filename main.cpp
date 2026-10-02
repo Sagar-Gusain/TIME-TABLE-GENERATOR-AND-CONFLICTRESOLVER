@@ -56,6 +56,13 @@ int main() {
     for (int i = 0; i < sections.size(); i++) {
         timetable[i].resize(slots.size());
     }
+    
+    for (int i = 0; i < sections.size(); i++) {
+    for (int j = 0; j < slots.size(); j++) {
+        timetable[i][j].subjectId = -1;
+        timetable[i][j].teacherId = -1;
+    }
+}
 
 
     // ---------------- DISPLAY INPUT DATA ----------------
