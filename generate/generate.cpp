@@ -72,18 +72,27 @@ bool sectionBusy(int section, int slot) {
 bool isValid(int section, int slot, int subjectId)
 {
     int teacherId = findTeacher(subjectId);
+
     // No teacher found
     if (teacherId == -1) {
         return false;
     }
+
     // Teacher already teaching another section
     if (teacherBusy(teacherId, slot)) {
         return false;
     }
-    // Subject cannot occupy same slot twice
+
+    // Section already has a class at this time
+    if (sectionBusy(section, slot)) {
+        return false;
+    }
+
+    // Subject already used in this section
     if (subjectAlreadyUsed(section, slot, subjectId)) {
         return false;
     }
+
     return true;
 }
 bool generate(int section, int slot)
