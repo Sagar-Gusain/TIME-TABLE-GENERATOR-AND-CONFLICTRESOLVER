@@ -56,6 +56,15 @@ bool subjectAlreadyUsed(int section,int slot, int subjectId){
 }
 
 
+bool sectionBusy(int section, int slot) {
+    if (timetable[section][slot].subjectId != -1) {
+        return true;
+    }
+
+    return false;
+}
+
+
 // Currently Handeling 3 conditions
 // 1. No teacher found
 // 2. Teacher already teaching another section
