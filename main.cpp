@@ -9,7 +9,7 @@
 #include "model/Room.h"
 
 using namespace std;
-
+bool generate(int section, int slot);
 // ---------------- GLOBAL DATA ----------------
 
 vector<Subject> subjects;
@@ -111,6 +111,30 @@ for (int i = 0; i < sections.size(); i++) {
          << slots.size()
          << " time slots"
          << endl;
+    if (generate(0, 0)) {
+    cout << "\nTimetable generated successfully!" << endl;
+}
+else {
+    cout << "\nNo valid timetable could be generated." << endl;
+}
+    cout << "\n===== GENERATED TIMETABLE =====\n";
+
+for (int i = 0; i < sections.size(); i++) {
+
+    cout << "\nSection: " << sections[i].name << endl;
+
+    for (int j = 0; j < slots.size(); j++) {
+
+        cout << slots[j]
+             << " -> Subject ID: "
+             << timetable[i][j].subjectId
+             << ", Teacher ID: "
+             << timetable[i][j].teacherId
+             << ", Room ID: "
+             << timetable[i][j].roomId
+             << endl;
+    }
+}
 
     return 0;
 }
