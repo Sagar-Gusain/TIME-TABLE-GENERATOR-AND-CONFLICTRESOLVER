@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "../model/Room.h"
 using namespace std;
 
 
@@ -119,6 +118,9 @@ bool generate(int section, int slot){
     int subjectId = subjects[i].id;
     int teacherId = findTeacher(subjectId);
 
+    if (slot + subjects[i].duration > slots.size()) {
+        continue;
+    }
     // Try every room
     for (int j = 0; j < rooms.size(); j++) {
 
@@ -128,10 +130,12 @@ bool generate(int section, int slot){
 
             timetable[section][slot].subjectId = subjectId;
             timetable[section][slot].teacherId = teacherId;
+            timetable[section][slot].roomId = roomId;
             if(subjects[i].duration > 1){
                 for(int j=1;j<subjects[i].duration;j++){
                     timetable[section][slot+j].subjectId = subjectId;
                     timetable[section][slot+j].teacherId = teacherId;
+                    timetable[section][slot+j].roomId = roomId;
                 }
             }
             if (generate(section, slot + subjects[i].duration)) {
@@ -141,14 +145,16 @@ bool generate(int section, int slot){
             // Backtrack
             timetable[section][slot].subjectId = -1;
             timetable[section][slot].teacherId = -1;
+            timetable[section][slot].roomId = -1;
             if(subjects[i].duration > 1){
                 for(int j=1;j<subjects[i].duration;j++){
                     timetable[section][slot+j].subjectId = -1;
                     timetable[section][slot+j].teacherId = -1;
+                    timetable[section][slot+j].roomId = -1;
                 }
             }
         }
     }
-
+   }
     return false;
 }

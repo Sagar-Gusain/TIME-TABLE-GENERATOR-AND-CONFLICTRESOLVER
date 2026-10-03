@@ -7,7 +7,7 @@
 #include "model/Teacher.h"
 #include "model/Sections.h"
 #include "model/Class.h"
-
+#include "model/Room.h"
 using namespace std;
 
 // Global data
@@ -100,10 +100,36 @@ void takeInputFromFiles(){
     }
 
     sectionFile.close();
+
+    // Read rooms from file
+    // Read rooms from file
+    ifstream roomFile("input/rooms.csv");
+
+    // skip header
+    getline(roomFile, line);
+
+    while (getline(roomFile, line)) {
+
+        istringstream iss(line);
+
+        string id;
+        string name;
+
+        getline(iss, id, ',');
+        getline(iss, name, ',');
+
+        rooms.push_back({
+            stoi(id),
+            name
+        });
+    }
+
+    roomFile.close();
 }
 
 // -------------------Display timetable--------------------
-void displayTimetable(){
+void displayTimetable()
+{
     cout << "\n========== ONE DAY TIMETABLE ==========\n\n";
 
     for (int i = 0; i < sections.size(); i++) {
@@ -114,13 +140,14 @@ void displayTimetable(){
 
             int subjectId = timetable[i][j].subjectId;
             int teacherId = timetable[i][j].teacherId;
+            int roomId = timetable[i][j].roomId;
 
-            string subjectName ;
-            string teacherName ;
+            string subjectName;
+            string teacherName;
+            string roomName;
 
             // Find subject name
             for (int k = 0; k < subjects.size(); k++) {
-
                 if (subjects[k].id == subjectId) {
                     subjectName = subjects[k].name;
                     break;
@@ -129,21 +156,29 @@ void displayTimetable(){
 
             // Find teacher name
             for (int k = 0; k < teachers.size(); k++) {
-
                 if (teachers[k].id == teacherId) {
                     teacherName = teachers[k].name;
                     break;
                 }
             }
+
+            // Find room name
+            for (int k = 0; k < rooms.size(); k++) {
+                if (rooms[k].id == roomId) {
+                    roomName = rooms[k].name;
+                    break;
+                }
+            }
+
             cout << slots[j] << " -> "
                  << subjectName << " -> "
-                 << teacherName << endl;
+                 << teacherName << " -> "
+                 << roomName << endl;
         }
 
         cout << endl;
     }
 }
-
 int main()
 {
     takeInputFromFiles();
@@ -152,7 +187,7 @@ int main()
 
     for (int i = 0; i < sections.size(); i++) {
         for (int j = 0; j < slots.size(); j++) {
-            timetable[i].push_back({-1, -1});
+            timetable[i].push_back({-1, -1, -1});
         }
     }
 

@@ -4,5 +4,4 @@ using namespace std;
 struct Room {
     int id;
     string name;
-    bool lab;
 };
