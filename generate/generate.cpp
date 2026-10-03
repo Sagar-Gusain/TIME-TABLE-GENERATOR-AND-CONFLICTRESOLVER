@@ -106,9 +106,7 @@ bool isValid(int section, int slot, int subjectId, int roomId)
 
     return true;
 }
-
-bool generate(int section, int slot)
-{
+bool generate(int section, int slot){
     if (section == sections.size()) {
         return true;
     }
@@ -130,19 +128,27 @@ bool generate(int section, int slot)
 
             timetable[section][slot].subjectId = subjectId;
             timetable[section][slot].teacherId = teacherId;
-            timetable[section][slot].roomId = roomId;
-
-            if (generate(section, slot + 1)) {
+            if(subjects[i].duration > 1){
+                for(int j=1;j<subjects[i].duration;j++){
+                    timetable[section][slot+j].subjectId = subjectId;
+                    timetable[section][slot+j].teacherId = teacherId;
+                }
+            }
+            if (generate(section, slot + subjects[i].duration)) {
                 return true;
             }
 
             // Backtrack
             timetable[section][slot].subjectId = -1;
             timetable[section][slot].teacherId = -1;
-            timetable[section][slot].roomId = -1;
+            if(subjects[i].duration > 1){
+                for(int j=1;j<subjects[i].duration;j++){
+                    timetable[section][slot+j].subjectId = -1;
+                    timetable[section][slot+j].teacherId = -1;
+                }
+            }
         }
     }
-}
 
     return false;
 }

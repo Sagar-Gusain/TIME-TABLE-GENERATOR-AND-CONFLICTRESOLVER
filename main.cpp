@@ -1,16 +1,16 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+#include <fstream>
+#include <sstream>
 #include "model/Subjects.h"
 #include "model/Teacher.h"
 #include "model/Sections.h"
 #include "model/Class.h"
-#include "model/Room.h"
 
 using namespace std;
-bool generate(int section, int slot);
-// ---------------- GLOBAL DATA ----------------
+
+// Global data
 
 vector<Subject> subjects;
 vector<Teacher> teachers;
@@ -18,123 +18,151 @@ vector<Section> sections;
 vector<Room> rooms;
 
 vector<string> slots = {
-    "8-9", "9-10", "10-11", "11-12",
-    "12-1", "1-2", "2-3", "3-4"
+    "8-9", "9-10", "10-11", "11-12"
 };
 
-// timetable[section][slot]
 vector<vector<Class>> timetable;
 
 
-int main() {
+// Generation code
+#include "generate/generate.cpp"
 
-    // ---------------- TEACHERS ----------------
-
-    teachers.push_back({1, "Dr. Sharma", 1});
-    teachers.push_back({2, "Dr. Verma", 2});
-    teachers.push_back({3, "Dr. Singh", 3});
-    teachers.push_back({4, "Dr. Gupta", 4});
+// ---------------Take input from files------------------
 
 
-    // ---------------- SUBJECTS ----------------
+void takeInputFromFiles(){
+    // Read subjects from file
+    ifstream subjectFile("input/subjects.csv");
 
-    subjects.push_back({1, "Data Structures", 4});
-    subjects.push_back({2, "OOP", 4});
-    subjects.push_back({3, "Mathematics", 4});
-    subjects.push_back({4, "Computer Networks", 3});
+    string line;
 
-    // ---------------- ROOMS ----------------
+    // skip header
+    getline(subjectFile, line);
 
-rooms.push_back({1, "Room 101", false});
-rooms.push_back({2, "Room 102", false});
-rooms.push_back({3, "Lab 1", true});
+    while (getline(subjectFile, line)) {
 
+        istringstream iss(line);
 
-    // ---------------- SECTIONS ----------------
+        string id;
+        string name;
+        string duration;
+        getline(iss, id, ',');
+        getline(iss, name, ',');
+        getline(iss, duration, ',');
 
-    sections.push_back({1, "CSE-G"});
-    sections.push_back({2, "CSE-C"});
+        subjects.push_back({stoi(id), name, stoi(duration)});
+    }
+    subjectFile.close();
 
+    // Read teachers from file
+    ifstream teacherFile("input/teachers.csv");
+    // skip header
+    getline(teacherFile, line);
 
-    // ---------------- INITIALIZE TIMETABLE ----------------
+    while (getline(teacherFile, line)) {
+        istringstream iss(line);
+
+        string id;
+        string name;
+        string subjectId;
+
+        getline(iss, id, ',');
+        getline(iss, name, ',');
+        getline(iss, subjectId, ',');
+
+        teachers.push_back({
+            stoi(id),
+            name,
+            stoi(subjectId)
+        });
+    }
+
+    teacherFile.close();
+    // Read sections from file
+    ifstream sectionFile("input/sections.csv");
+
+    // skip header
+    getline(sectionFile, line);
+
+    while (getline(sectionFile, line)) {
+        istringstream iss(line);
+
+        string id;
+        string name;
+
+        getline(iss, id, ',');
+        getline(iss, name, ',');
+
+        sections.push_back({
+            stoi(id),
+            name
+        });
+    }
+
+    sectionFile.close();
+}
+
+// -------------------Display timetable--------------------
+void displayTimetable(){
+    cout << "\n========== ONE DAY TIMETABLE ==========\n\n";
+
+    for (int i = 0; i < sections.size(); i++) {
+
+        cout << "Section: " << sections[i].name << endl;
+
+        for (int j = 0; j < slots.size(); j++) {
+
+            int subjectId = timetable[i][j].subjectId;
+            int teacherId = timetable[i][j].teacherId;
+
+            string subjectName ;
+            string teacherName ;
+
+            // Find subject name
+            for (int k = 0; k < subjects.size(); k++) {
+
+                if (subjects[k].id == subjectId) {
+                    subjectName = subjects[k].name;
+                    break;
+                }
+            }
+
+            // Find teacher name
+            for (int k = 0; k < teachers.size(); k++) {
+
+                if (teachers[k].id == teacherId) {
+                    teacherName = teachers[k].name;
+                    break;
+                }
+            }
+            cout << slots[j] << " -> "
+                 << subjectName << " -> "
+                 << teacherName << endl;
+        }
+
+        cout << endl;
+    }
+}
+
+int main()
+{
+    takeInputFromFiles();
 
    timetable.resize(sections.size());
 
-for (int i = 0; i < sections.size(); i++) {
-    timetable[i].resize(slots.size());
-}
-
-for (int i = 0; i < sections.size(); i++) {
-    for (int j = 0; j < slots.size(); j++) {
-        timetable[i][j].subjectId = -1;
-        timetable[i][j].teacherId = -1;
-        timetable[i][j].roomId = -1;
-    }
-}
-
-    // ---------------- DISPLAY INPUT DATA ----------------
-
-    cout << "===== TIMETABLE GENERATOR =====" << endl;
-
-    cout << "\nTeachers:" << endl;
-
-    for (Teacher teacher : teachers) {
-        cout << teacher.id << ". "
-             << teacher.name << endl;
+    for (int i = 0; i < sections.size(); i++) {
+        for (int j = 0; j < slots.size(); j++) {
+            timetable[i].push_back({-1, -1});
+        }
     }
 
-    cout << "\nSubjects:" << endl;
-
-    for (Subject subject : subjects) {
-        cout << subject.id << ". "
-             << subject.name
-             << " (" << subject.lecturesPerWeek
-             << " lectures/week)" << endl;
-    }
-
-    cout << "\nSections:" << endl;
-
-    for (Section section : sections) {
-        cout << section.id << ". "
-             << section.name << endl;
-    }
-
-    cout << "\nTime Slots:" << endl;
-
-    for (string slot : slots) {
-        cout << slot << endl;
-    }
-
-    cout << "\nTimetable size: "
-         << timetable.size()
-         << " sections x "
-         << slots.size()
-         << " time slots"
-         << endl;
     if (generate(0, 0)) {
-    cout << "\nTimetable generated successfully!" << endl;
-}
-else {
-    cout << "\nNo valid timetable could be generated." << endl;
-}
-    cout << "\n===== GENERATED TIMETABLE =====\n";
-
-for (int i = 0; i < sections.size(); i++) {
-
-    cout << "\nSection: " << sections[i].name << endl;
-
-    for (int j = 0; j < slots.size(); j++) {
-
-        cout << slots[j]
-             << " -> Subject ID: "
-             << timetable[i][j].subjectId
-             << ", Teacher ID: "
-             << timetable[i][j].teacherId
-             << ", Room ID: "
-             << timetable[i][j].roomId
-             << endl;
+        cout << "Timetable generated successfully!\n";
+        displayTimetable();
     }
-}
+    else {
+        cout << "No valid timetable possible!\n";
+    }
 
     return 0;
 }
