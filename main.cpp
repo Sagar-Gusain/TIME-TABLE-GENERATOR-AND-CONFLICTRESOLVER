@@ -179,10 +179,66 @@ void displayTimetable()
         cout << endl;
     }
 }
+
+void writeTimetable()
+{
+    ofstream file("output/timetable.csv");
+
+    file << "Section,Time,Subject,Teacher,Room\n";
+
+    for (int i = 0; i < sections.size(); i++) {
+
+        for (int j = 0; j < slots.size(); j++) {
+
+            int subjectId = timetable[i][j].subjectId;
+            int teacherId = timetable[i][j].teacherId;
+            int roomId = timetable[i][j].roomId;
+
+            string subjectName = "Empty";
+            string teacherName = "Empty";
+            string roomName = "Empty";
+
+            // Find subject name
+            for (int k = 0; k < subjects.size(); k++) {
+                if (subjects[k].id == subjectId) {
+                    subjectName = subjects[k].name;
+                    break;
+                }
+            }
+
+            // Find teacher name
+            for (int k = 0; k < teachers.size(); k++) {
+                if (teachers[k].id == teacherId) {
+                    teacherName = teachers[k].name;
+                    break;
+                }
+            }
+
+            // Find room name
+            for (int k = 0; k < rooms.size(); k++) {
+                if (rooms[k].id == roomId) {
+                    roomName = rooms[k].name;
+                    break;
+                }
+            }
+
+            // Save timetable data into CSV
+            file << sections[i].name << ","
+                 << slots[j] << ","
+                 << subjectName << ","
+                 << teacherName << ","
+                 << roomName << "\n";
+        }
+    }
+
+    file.close();
+
+    cout << "Timetable saved successfully!\n";
+}
 int main()
 {
     takeInputFromFiles();
-
+    
    timetable.resize(sections.size());
 
     for (int i = 0; i < sections.size(); i++) {
@@ -194,6 +250,7 @@ int main()
     if (generate(0, 0)) {
         cout << "Timetable generated successfully!\n";
         displayTimetable();
+        writeTimetable();
     }
     else {
         cout << "No valid timetable possible!\n";

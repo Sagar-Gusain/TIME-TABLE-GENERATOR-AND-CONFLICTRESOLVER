@@ -1,0 +1,9 @@
+Section,Time,Subject,Teacher,Room
+CSE-A,8-9,Data Structures,Dr. Sharma,Room-101
+CSE-A,9-10,Data Structures,Dr. Sharma,Room-101
+CSE-A,10-11,OOP,Dr. Verma,Room-101
+CSE-A,11-12,Mathematics,Dr. Singh,Room-101
+CSE-B,8-9,OOP,Dr. Verma,Room-102
+CSE-B,9-10,Mathematics,Dr. Singh,Room-102
+CSE-B,10-11,Data Structures,Dr. Sharma,Room-102
+CSE-B,11-12,Data Structures,Dr. Sharma,Room-102
