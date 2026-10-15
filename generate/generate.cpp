@@ -37,11 +37,13 @@ int findTeacher(int subjectId){
 }
 
 // Check whether teacher is already teaching
-bool teacherBusy(int teacherId, int slot){
-    for (int i = 0; i < sections.size(); i++) {
+bool teacherBusy(int teacherId,int startslot, int slot){
+    for (int slot = startSlot; slot <startslot+slot;slot++) {
+        for(size_t i=0;i<sections.size();i++){
         if (timetable[i][slot].teacherId == teacherId) {
             return true;
         }
+    }
     }
     return false;
 }
@@ -56,9 +58,9 @@ bool roomBusy(int roomId, int slot){
 }
 
 // Check whether subject is already present
-bool subjectAlreadyUsed(int section,int slot, int subjectId){
+bool subjectAlreadyUsed(int section, int subjectId){
     for (int i = 0; i < slots.size(); i++) {
-        if (i != slot && timetable[section][i].subjectId == subjectId) {
+        if (timetable[section][i].subjectId==subjectId) {
             return true;
         }
     }
@@ -75,11 +77,8 @@ bool sectionBusy(int section, int slot) {
 }
 
 
-// Currently Handeling 3 conditions
-// 1. No teacher found
-// 2. Teacher already teaching another section
-// 3. Subject cannot occupy same slot twice
-bool isValid(int section, int slot, int subjectId, int roomId)
+// complete validation
+bool isValid(int section, int slot,int durationslots, int subjectId, int roomId)
 {
     int teacherId = findTeacher(subjectId);
 
@@ -87,19 +86,22 @@ bool isValid(int section, int slot, int subjectId, int roomId)
     if (teacherId == -1) {
         return false;
     }
-
+    if(slot+durationSlots>(int)slots.size())
+    {
+        return false;
+    }
     // Teacher already teaching another section
-    if (teacherBusy(teacherId, slot)) {
+    if (teacherBusy(teacherId, slot,durationslots)) {
         return false;
     }
 
     // Room already occupied
-    if (roomBusy(roomId, slot)) {
+    if (roomBusy(roomId, slot,durationsslots)) {
         return false;
     }
 
     // Subject cannot occupy same slot twice
-    if (subjectAlreadyUsed(section, slot, subjectId)) {
+    if (subjectAlreadyUsed(section, subjectId)) {
         return false;
     }
 
