@@ -1,0 +1,28 @@
+Section,Slot,Subject,Teacher,Room
+CSE-A,8-9,Data Structures,Dr. Sharma,Room-101
+CSE-A,9-10,Object Oriented Programming,Dr. Verma,Room-101
+CSE-A,10-11,BREAK,,
+CSE-A,11-12,Mathematics,Dr. Singh,Room-101
+CSE-A,12-1,Mathematics,Dr. Singh,Room-101
+CSE-A,1-2,BREAK,,
+CSE-A,2-3,Computer Networks,Dr. Gupta,Room-101
+CSE-A,3-4,Database Management Systems,Dr. Mehta,Room-101
+CSE-A,4-5,Operating Systems,Dr. Joshi,Room-101
+CSE-B,8-9,Object Oriented Programming,Dr. Verma,Room-102
+CSE-B,9-10,Data Structures,Dr. Sharma,Room-102
+CSE-B,10-11,Mathematics,Dr. Singh,Room-101
+CSE-B,11-12,Mathematics,Dr. Singh,Room-101
+CSE-B,12-1,Computer Networks,Dr. Gupta,Room-102
+CSE-B,1-2,Database Management Systems,Dr. Mehta,Room-101
+CSE-B,2-3,BREAK,,
+CSE-B,3-4,Operating Systems,Dr. Joshi,Room-102
+CSE-B,4-5,Python Programming,Dr. Kapoor,Room-102
+CSE-C,8-9,Mathematics,Dr. Singh,Room-103
+CSE-C,9-10,Mathematics,Dr. Singh,Room-103
+CSE-C,10-11,Data Structures,Dr. Sharma,Room-102
+CSE-C,11-12,Object Oriented Programming,Dr. Verma,Room-102
+CSE-C,12-1,BREAK,,
+CSE-C,1-2,Computer Networks,Dr. Gupta,Room-102
+CSE-C,2-3,BREAK,,
+CSE-C,3-4,Python Programming,Dr. Kapoor,Room-103
+CSE-C,4-5,Database Management Systems,Dr. Mehta,Room-103

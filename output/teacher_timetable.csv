@@ -1,0 +1,82 @@
+Teacher,Slot,Subject,Section,Room
+Dr. Sharma,8-9,Data Structures,CSE-A,Room-101
+Dr. Sharma,9-10,Data Structures,CSE-B,Room-102
+Dr. Sharma,10-11,Data Structures,CSE-C,Room-102
+Dr. Sharma,11-12,FREE,,
+Dr. Sharma,12-1,FREE,,
+Dr. Sharma,1-2,FREE,,
+Dr. Sharma,2-3,FREE,,
+Dr. Sharma,3-4,FREE,,
+Dr. Sharma,4-5,FREE,,
+Dr. Verma,8-9,Object Oriented Programming,CSE-B,Room-102
+Dr. Verma,9-10,Object Oriented Programming,CSE-A,Room-101
+Dr. Verma,10-11,FREE,,
+Dr. Verma,11-12,Object Oriented Programming,CSE-C,Room-102
+Dr. Verma,12-1,FREE,,
+Dr. Verma,1-2,FREE,,
+Dr. Verma,2-3,FREE,,
+Dr. Verma,3-4,FREE,,
+Dr. Verma,4-5,FREE,,
+Dr. Singh,8-9,Mathematics,CSE-C,Room-103
+Dr. Singh,9-10,Mathematics,CSE-C,Room-103
+Dr. Singh,10-11,Mathematics,CSE-B,Room-101
+Dr. Singh,11-12,Mathematics,CSE-A,Room-101
+Dr. Singh,12-1,Mathematics,CSE-A,Room-101
+Dr. Singh,1-2,FREE,,
+Dr. Singh,2-3,FREE,,
+Dr. Singh,3-4,FREE,,
+Dr. Singh,4-5,FREE,,
+Dr. Gupta,8-9,FREE,,
+Dr. Gupta,9-10,FREE,,
+Dr. Gupta,10-11,FREE,,
+Dr. Gupta,11-12,FREE,,
+Dr. Gupta,12-1,Computer Networks,CSE-B,Room-102
+Dr. Gupta,1-2,Computer Networks,CSE-C,Room-102
+Dr. Gupta,2-3,Computer Networks,CSE-A,Room-101
+Dr. Gupta,3-4,FREE,,
+Dr. Gupta,4-5,FREE,,
+Dr. Mehta,8-9,FREE,,
+Dr. Mehta,9-10,FREE,,
+Dr. Mehta,10-11,FREE,,
+Dr. Mehta,11-12,FREE,,
+Dr. Mehta,12-1,FREE,,
+Dr. Mehta,1-2,Database Management Systems,CSE-B,Room-101
+Dr. Mehta,2-3,FREE,,
+Dr. Mehta,3-4,Database Management Systems,CSE-A,Room-101
+Dr. Mehta,4-5,Database Management Systems,CSE-C,Room-103
+Dr. Joshi,8-9,FREE,,
+Dr. Joshi,9-10,FREE,,
+Dr. Joshi,10-11,FREE,,
+Dr. Joshi,11-12,FREE,,
+Dr. Joshi,12-1,FREE,,
+Dr. Joshi,1-2,FREE,,
+Dr. Joshi,2-3,FREE,,
+Dr. Joshi,3-4,Operating Systems,CSE-B,Room-102
+Dr. Joshi,4-5,Operating Systems,CSE-A,Room-101
+Dr. Kapoor,8-9,FREE,,
+Dr. Kapoor,9-10,FREE,,
+Dr. Kapoor,10-11,FREE,,
+Dr. Kapoor,11-12,FREE,,
+Dr. Kapoor,12-1,FREE,,
+Dr. Kapoor,1-2,FREE,,
+Dr. Kapoor,2-3,FREE,,
+Dr. Kapoor,3-4,Python Programming,CSE-C,Room-103
+Dr. Kapoor,4-5,Python Programming,CSE-B,Room-102
+Dr. Mishra,8-9,FREE,,
+Dr. Mishra,9-10,FREE,,
+Dr. Mishra,10-11,FREE,,
+Dr. Mishra,11-12,FREE,,
+Dr. Mishra,12-1,FREE,,
+Dr. Mishra,1-2,FREE,,
+Dr. Mishra,2-3,FREE,,
+Dr. Mishra,3-4,FREE,,
+Dr. Mishra,4-5,FREE,,
+Dr. Rao,8-9,FREE,,
+Dr. Rao,9-10,FREE,,
+Dr. Rao,10-11,FREE,,
+Dr. Rao,11-12,FREE,,
+Dr. Rao,12-1,FREE,,
+Dr. Rao,1-2,FREE,,
+Dr. Rao,2-3,FREE,,
+Dr. Rao,3-4,FREE,,
+Dr. Rao,4-5,FREE,,

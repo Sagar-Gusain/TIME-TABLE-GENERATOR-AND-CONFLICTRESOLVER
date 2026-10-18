@@ -18,7 +18,8 @@ vector<Section> sections;
 vector<Room> rooms;
 
 vector<string> slots = {
-    "8-9", "9-10", "10-11", "11-12"
+    "8-9", "9-10", "10-11", "11-12",
+    "12-1", "1-2", "2-3", "3-4", "4-5"
 };
 
 vector<vector<Class>> timetable;
@@ -180,6 +181,128 @@ void displayTimetable()
     }
 }
 
+void writeSectionCSV()
+{
+    ofstream file("output/section_timetable.csv");
+    file << "Section,Slot,Subject,Teacher,Room\n";
+
+    for (int i = 0; i < sections.size(); i++) {
+        for (int j = 0; j < slots.size(); j++) {
+            int sid = timetable[i][j].subjectId;
+            file << sections[i].name << "," << slots[j] << ",";
+
+            if (sid == -2) {
+                file << "BREAK,,";
+            }
+            else if (sid == -1) {
+                file << "FREE,,";
+            }
+            else {
+                for (int k = 0; k < subjects.size(); k++)
+                    if (subjects[k].id == sid)
+                        file << subjects[k].name << ",";
+
+                for (int k = 0; k < teachers.size(); k++)
+                    if (teachers[k].id == timetable[i][j].teacherId)
+                        file << teachers[k].name << ",";
+
+                for (int k = 0; k < rooms.size(); k++)
+                    if (rooms[k].id == timetable[i][j].roomId)
+                        file << rooms[k].name;
+            }
+
+            file << "\n";
+        }
+    }
+
+    file.close();
+}
+
+void writeTeacherCSV()
+{
+    ofstream file("output/teacher_timetable.csv");
+    file << "Teacher,Slot,Subject,Section,Room\n";
+
+    for (int i = 0; i < teachers.size(); i++) {
+        for (int j = 0; j < slots.size(); j++) {
+            file << teachers[i].name << "," << slots[j] << ",";
+
+            bool found = false;
+
+            for (int k = 0; k < sections.size(); k++) {
+                if (timetable[k][j].teacherId == teachers[i].id) {
+                    int sid = timetable[k][j].subjectId;
+
+                    for (int m = 0; m < subjects.size(); m++)
+                        if (subjects[m].id == sid)
+                            file << subjects[m].name;
+
+                    file << "," << sections[k].name << ",";
+
+                    for (int m = 0; m < rooms.size(); m++)
+                        if (rooms[m].id == timetable[k][j].roomId)
+                            file << rooms[m].name;
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+                file << "FREE,,";
+
+            file << "\n";
+        }
+    }
+
+    file.close();
+}
+
+
+void writeRoomCSV()
+{
+    ofstream file("output/room_timetable.csv");
+    file << "Room,Slot,Subject,Teacher,Section\n";
+
+    for (int i = 0; i < rooms.size(); i++) {
+        for (int j = 0; j < slots.size(); j++) {
+            file << rooms[i].name << "," << slots[j] << ",";
+
+            bool found = false;
+
+            for (int k = 0; k < sections.size(); k++) {
+                if (timetable[k][j].roomId == rooms[i].id) {
+                    int sid = timetable[k][j].subjectId;
+
+                    for (int m = 0; m < subjects.size(); m++)
+                        if (subjects[m].id == sid)
+                            file << subjects[m].name;
+
+                    file << ",";
+
+                    for (int m = 0; m < teachers.size(); m++)
+                        if (teachers[m].id == timetable[k][j].teacherId)
+                            file << teachers[m].name;
+
+                    file << "," << sections[k].name;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+                file << "FREE,,";
+
+            file << "\n";
+        }
+    }
+
+    file.close();
+}
+
+
+
+
 void writeTimetable()
 {
     ofstream file("output/timetable.csv");
@@ -295,6 +418,11 @@ int main()
         cout << "Timetable generated successfully!\n";
         displayTimetable();
         writeTimetable();
+        writeTimetable();
+
+        writeSectionCSV();
+        writeTeacherCSV();
+        writeRoomCSV();
     }
     else {
         cout << "No valid timetable possible!\n";

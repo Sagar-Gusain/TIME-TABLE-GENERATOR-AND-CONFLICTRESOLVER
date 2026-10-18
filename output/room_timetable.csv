@@ -1,0 +1,46 @@
+Room,Slot,Subject,Teacher,Section
+Room-101,8-9,Data Structures,Dr. Sharma,CSE-A
+Room-101,9-10,Object Oriented Programming,Dr. Verma,CSE-A
+Room-101,10-11,Mathematics,Dr. Singh,CSE-B
+Room-101,11-12,Mathematics,Dr. Singh,CSE-A
+Room-101,12-1,Mathematics,Dr. Singh,CSE-A
+Room-101,1-2,Database Management Systems,Dr. Mehta,CSE-B
+Room-101,2-3,Computer Networks,Dr. Gupta,CSE-A
+Room-101,3-4,Database Management Systems,Dr. Mehta,CSE-A
+Room-101,4-5,Operating Systems,Dr. Joshi,CSE-A
+Room-102,8-9,Object Oriented Programming,Dr. Verma,CSE-B
+Room-102,9-10,Data Structures,Dr. Sharma,CSE-B
+Room-102,10-11,Data Structures,Dr. Sharma,CSE-C
+Room-102,11-12,Object Oriented Programming,Dr. Verma,CSE-C
+Room-102,12-1,Computer Networks,Dr. Gupta,CSE-B
+Room-102,1-2,Computer Networks,Dr. Gupta,CSE-C
+Room-102,2-3,FREE,,
+Room-102,3-4,Operating Systems,Dr. Joshi,CSE-B
+Room-102,4-5,Python Programming,Dr. Kapoor,CSE-B
+Room-103,8-9,Mathematics,Dr. Singh,CSE-C
+Room-103,9-10,Mathematics,Dr. Singh,CSE-C
+Room-103,10-11,FREE,,
+Room-103,11-12,FREE,,
+Room-103,12-1,FREE,,
+Room-103,1-2,FREE,,
+Room-103,2-3,FREE,,
+Room-103,3-4,Python Programming,Dr. Kapoor,CSE-C
+Room-103,4-5,Database Management Systems,Dr. Mehta,CSE-C
+Lab-101,8-9,FREE,,
+Lab-101,9-10,FREE,,
+Lab-101,10-11,FREE,,
+Lab-101,11-12,FREE,,
+Lab-101,12-1,FREE,,
+Lab-101,1-2,FREE,,
+Lab-101,2-3,FREE,,
+Lab-101,3-4,FREE,,
+Lab-101,4-5,FREE,,
+Lab-102,8-9,FREE,,
+Lab-102,9-10,FREE,,
+Lab-102,10-11,FREE,,
+Lab-102,11-12,FREE,,
+Lab-102,12-1,FREE,,
+Lab-102,1-2,FREE,,
+Lab-102,2-3,FREE,,
+Lab-102,3-4,FREE,,
+Lab-102,4-5,FREE,,
