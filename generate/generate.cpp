@@ -112,7 +112,11 @@ bool generate(int section, int slot){
     if (slot == slots.size()) {
         return generate(section + 1, 0);
     }
-
+    
+    if (timetable[section][slot].subjectId == -2) {
+    return generate(section, slot + 1);
+    }
+    
    for (int i = 0; i < subjects.size(); i++) {
 
     int subjectId = subjects[i].id;

@@ -235,6 +235,47 @@ void writeTimetable()
 
     cout << "Timetable saved successfully!\n";
 }
+
+//________________________________BREAK______________________
+
+void takeBreaksFromFile(string folder)
+{
+    ifstream file(folder + "/breaks.csv");
+
+    if (!file.is_open()) {
+        cout << "Error opening breaks.csv\n";
+        return;
+    }
+
+    string line;
+    getline(file, line); // Skip header
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+
+        string sectionId, slot;
+        getline(ss, sectionId, ',');
+        getline(ss, slot, ',');
+
+        int section = stoi(sectionId) - 1;
+        int s = stoi(slot);
+
+        if (section >= 0 && section < sections.size() &&
+            s >= 0 && s < slots.size()) {
+
+            timetable[section][s].subjectId = -2;
+            timetable[section][s].teacherId = -1;
+            timetable[section][s].roomId = -1;
+        }
+        else {
+            cout << "Invalid break: " << line << "\n";
+        }
+    }
+
+    file.close();
+}
+
+
 int main()
 {
     takeInputFromFiles();
@@ -246,6 +287,9 @@ int main()
             timetable[i].push_back({-1, -1, -1});
         }
     }
+
+    //Set Brakes
+    takeBreaksFromFile("input");
 
     if (generate(0, 0)) {
         cout << "Timetable generated successfully!\n";
