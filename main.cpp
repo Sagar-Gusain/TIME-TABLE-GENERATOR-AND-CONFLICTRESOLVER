@@ -8,159 +8,111 @@
 #include "model/Sections.h"
 #include "model/Class.h"
 #include "model/Room.h"
+
 using namespace std;
 
-// Global data
-
+// Global vectors holding data loaded from CSVs
 vector<Subject> subjects;
 vector<Teacher> teachers;
 vector<Section> sections;
 vector<Room> rooms;
 
+// 30 minute timeline divisions to handle fractional lecture durations
 vector<string> slots = {
     "8-9", "9-10", "10-11", "11-12",
     "12-1", "1-2", "2-3", "3-4", "4-5"
 };
 
+// 2D grid matrix: rows represent sections, columns represent timeline intervals
 vector<vector<Class>> timetable;
 
-
-// Generation code
 #include "generate/generate.cpp"
 
-// ---------------Take input from files------------------
-
-
+// Read configuration entries from file system
 void takeInputFromFiles(){
-    // Read subjects from file
     ifstream subjectFile("input/subjects.csv");
-
     string line;
-
-    // skip header
+    
+    // bypass data headers
     getline(subjectFile, line);
-
     while (getline(subjectFile, line)) {
-
         istringstream iss(line);
-
-        string id;
-        string name;
-        string duration;
+        string id, name, duration;
+        
         getline(iss, id, ',');
         getline(iss, name, ',');
         getline(iss, duration, ',');
 
-        subjects.push_back({stoi(id), name, stoi(duration)});
+        double hourValue = stod(duration);
+        // Calculate raw block footprint based on half-hour step increments
+        int equivalentSlots = (int)(hourValue * 2); 
+
+        subjects.push_back({stoi(id), name, hourValue, equivalentSlots});
     }
     subjectFile.close();
 
-    // Read teachers from file
     ifstream teacherFile("input/teachers.csv");
-    // skip header
     getline(teacherFile, line);
-
     while (getline(teacherFile, line)) {
         istringstream iss(line);
-
-        string id;
-        string name;
-        string subjectId;
-
+        string id, name, subjectId;
+        
         getline(iss, id, ',');
         getline(iss, name, ',');
         getline(iss, subjectId, ',');
-
-        teachers.push_back({
-            stoi(id),
-            name,
-            stoi(subjectId)
-        });
+        
+        teachers.push_back({stoi(id), name, stoi(subjectId)});
     }
-
     teacherFile.close();
-    // Read sections from file
+
     ifstream sectionFile("input/sections.csv");
-
-    // skip header
     getline(sectionFile, line);
-
     while (getline(sectionFile, line)) {
         istringstream iss(line);
-
-        string id;
-        string name;
-
+        string id, name;
+        
         getline(iss, id, ',');
         getline(iss, name, ',');
-
-        sections.push_back({
-            stoi(id),
-            name
-        });
+        
+        sections.push_back({stoi(id), name});
     }
-
     sectionFile.close();
 
-    // Read rooms from file
-    // Read rooms from file
     ifstream roomFile("input/rooms.csv");
-
-    // skip header
     getline(roomFile, line);
-
     while (getline(roomFile, line)) {
-
         istringstream iss(line);
-
-        string id;
-        string name;
-
+        string id, name;
+        
         getline(iss, id, ',');
         getline(iss, name, ',');
-
-        rooms.push_back({
-            stoi(id),
-            name
-        });
+        
+        rooms.push_back({stoi(id), name});
     }
-
     roomFile.close();
 }
 
-// -------------------Display timetable--------------------
-void displayTimetable()
+// Write the compiled matrix grid back into an export file
+void writeTimetable()
 {
-    cout << "\n========== ONE DAY TIMETABLE ==========\n\n";
+    ofstream outputFile("output/timetable.csv");
+    outputFile << "Section,Time,Subject,Teacher,Room\n";
 
-    for (int i = 0; i < sections.size(); i++) {
+    for (size_t i = 0; i < sections.size(); i++) {
+        int currentSlotIndex = 0;
+        
+        while (currentSlotIndex < (int)slots.size()) {
+            int currentSubject = timetable[i][currentSlotIndex].subjectId;
+            int currentTeacher = timetable[i][currentSlotIndex].teacherId;
+            int currentRoom = timetable[i][currentSlotIndex].roomId;
 
-        cout << "Section: " << sections[i].name << endl;
-
-        for (int j = 0; j < slots.size(); j++) {
-
-            int subjectId = timetable[i][j].subjectId;
-            int teacherId = timetable[i][j].teacherId;
-            int roomId = timetable[i][j].roomId;
-
-            string subjectName;
-            string teacherName;
-            string roomName;
-
-            // Find subject name
-            for (int k = 0; k < subjects.size(); k++) {
-                if (subjects[k].id == subjectId) {
-                    subjectName = subjects[k].name;
-                    break;
-                }
-            }
-
-            // Find teacher name
-            for (int k = 0; k < teachers.size(); k++) {
-                if (teachers[k].id == teacherId) {
-                    teacherName = teachers[k].name;
-                    break;
-                }
+            // Handle vacant intervals safely
+            if (currentSubject == -1) {
+                outputFile << sections[i].name << "," 
+                           << slots[currentSlotIndex] 
+                           << ",Empty,Empty,Empty\n";
+                currentSlotIndex++;
+                continue;
             }
 
             // Find room name
@@ -317,46 +269,39 @@ void writeTimetable()
             int teacherId = timetable[i][j].teacherId;
             int roomId = timetable[i][j].roomId;
 
-            string subjectName = "Empty";
-            string teacherName = "Empty";
-            string roomName = "Empty";
+            string matchedSubject = "Empty";
+            string matchedTeacher = "Empty";
+            string matchedRoom = "Empty";
 
-            // Find subject name
-            for (int k = 0; k < subjects.size(); k++) {
-                if (subjects[k].id == subjectId) {
-                    subjectName = subjects[k].name;
-                    break;
+            // Loop lookups matching metadata attributes
+            for (size_t tempIdx = 0; tempIdx < subjects.size(); tempIdx++) {
+                if (subjects[tempIdx].id == currentSubject) { 
+                    matchedSubject = subjects[tempIdx].name; 
+                    break; 
+                }
+            }
+            for (size_t tempIdx = 0; tempIdx < teachers.size(); tempIdx++) {
+                if (teachers[tempIdx].id == currentTeacher) { 
+                    matchedTeacher = teachers[tempIdx].name; 
+                    break; 
+                }
+            }
+            for (size_t tempIdx = 0; tempIdx < rooms.size(); tempIdx++) {
+                if (rooms[tempIdx].id == currentRoom) { 
+                    matchedRoom = rooms[tempIdx].name; 
+                    break; 
                 }
             }
 
-            // Find teacher name
-            for (int k = 0; k < teachers.size(); k++) {
-                if (teachers[k].id == teacherId) {
-                    teacherName = teachers[k].name;
-                    break;
-                }
-            }
-
-            // Find room name
-            for (int k = 0; k < rooms.size(); k++) {
-                if (rooms[k].id == roomId) {
-                    roomName = rooms[k].name;
-                    break;
-                }
-            }
-
-            // Save timetable data into CSV
-            file << sections[i].name << ","
-                 << slots[j] << ","
-                 << subjectName << ","
-                 << teacherName << ","
-                 << roomName << "\n";
+            outputFile << sections[i].name << "," 
+                       << formattedRange << "," 
+                       << matchedSubject << "," 
+                       << matchedTeacher << "," 
+                       << matchedRoom << "\n";
         }
     }
-
-    file.close();
-
-    cout << "Timetable saved successfully!\n";
+    outputFile.close();
+    cout << "Process finished: CSV schedule updated." << endl;
 }
 
 //________________________________BREAK______________________
@@ -402,12 +347,15 @@ void takeBreaksFromFile(string folder)
 
 int main()
 {
+    // Populate data structures
     takeInputFromFiles();
     
-   timetable.resize(sections.size());
+    // Allocate space parameters matching sections size
+    timetable.resize(sections.size());
 
-    for (int i = 0; i < sections.size(); i++) {
-        for (int j = 0; j < slots.size(); j++) {
+    // Initialize allocations with blank states
+    for (size_t i = 0; i < sections.size(); i++) {
+        for (size_t j = 0; j < slots.size(); j++) {
             timetable[i].push_back({-1, -1, -1});
         }
     }
@@ -416,8 +364,7 @@ int main()
     takeBreaksFromFile("input");
 
     if (generate(0, 0)) {
-        cout << "Timetable generated successfully!\n";
-        displayTimetable();
+        cout << "Generation successful." << endl;
         writeTimetable();
         writeTimetable();
 
@@ -428,6 +375,6 @@ int main()
     else {
         cout << "No valid timetable possible!\n";
     }
-
+    
     return 0;
 }

@@ -1,6 +1,7 @@
 id,name,subjectId
 1,Dr. Sharma,1
 2,Dr. Verma,2
+<<<<<<< HEAD
 3,Dr. Singh,3
 4,Dr. Gupta,4
 5,Dr. Mehta,5
@@ -8,3 +9,7 @@ id,name,subjectId
 7,Dr. Kapoor,7
 8,Dr. Mishra,8
 9,Dr. Rao,9
+=======
+3,Dr. Singhal,3
+4,Dr. Gupta,4
+>>>>>>> origin/main
