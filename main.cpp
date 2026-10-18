@@ -395,6 +395,7 @@ void takeBreaksFromFile(string folder)
         }
     }
 
+    
     file.close();
 }
 
