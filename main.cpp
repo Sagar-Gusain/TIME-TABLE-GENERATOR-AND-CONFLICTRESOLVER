@@ -424,7 +424,6 @@ int main()
         cout << "Timetable generated successfully!\n";
         displayTimetable();
         writeTimetable();
-        writeTimetable();
 
         writeSectionCSV();
         writeTeacherCSV();
