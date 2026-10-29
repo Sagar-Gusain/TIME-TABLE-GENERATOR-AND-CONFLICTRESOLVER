@@ -399,6 +399,8 @@ void takeBreaksFromFile(string folder)
     file.close();
 }
 
+void displayFolderNames(const string& path);
+
 
 int main()
 {
