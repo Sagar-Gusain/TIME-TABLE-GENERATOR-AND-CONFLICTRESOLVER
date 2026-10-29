@@ -404,6 +404,9 @@ void displayFolderNames(const string& path);
 
 int main()
 {
+   cout << "Project folders:\n";
+    displayFolderNames(".");
+
     takeInputFromFiles();
     
    timetable.resize(sections.size());
