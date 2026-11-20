@@ -75,11 +75,15 @@ bool sectionBusy(int section, int slot) {
 }
 
 
-// Currently Handeling 3 conditions
-// 1. No teacher found
-// 2. Teacher already teaching another section
-// 3. Subject cannot occupy same slot twice
-bool isValid(int section, int slot, int subjectId, int roomId)
+// Currently Handling conditions:
+// 1. Teacher exists
+// 2. Subject not already assigned in this section
+// 3. For all slots across the subject duration:
+//    - Slot is within bounds
+//    - Slot is free (no break and not already occupied)
+//    - Teacher is free
+//    - Room is free
+bool isValid(int section, int slot, int subjectId, int roomId, int duration = 1)
 {
     int teacherId = findTeacher(subjectId);
 
@@ -88,23 +92,38 @@ bool isValid(int section, int slot, int subjectId, int roomId)
         return false;
     }
 
-    // Teacher already teaching another section
-    if (teacherBusy(teacherId, slot)) {
-        return false;
-    }
-
-    // Room already occupied
-    if (roomBusy(roomId, slot)) {
-        return false;
-    }
-
-    // Subject cannot occupy same slot twice
+    // Subject cannot occupy same section twice
     if (subjectAlreadyUsed(section, slot, subjectId)) {
         return false;
     }
 
+    for (int d = 0; d < duration; d++) {
+        int s = slot + d;
+
+        // Slot out of bounds
+        if (s >= slots.size()) {
+            return false;
+        }
+
+        // Slot is already occupied or is a break
+        if (timetable[section][s].subjectId != -1) {
+            return false;
+        }
+
+        // Teacher already teaching another section
+        if (teacherBusy(teacherId, s)) {
+            return false;
+        }
+
+        // Room already occupied
+        if (roomBusy(roomId, s)) {
+            return false;
+        }
+    }
+
     return true;
 }
+
 bool generate(int section, int slot){
     if (section == sections.size()) {
         return true;
@@ -113,52 +132,46 @@ bool generate(int section, int slot){
         return generate(section + 1, 0);
     }
     
-    if (timetable[section][slot].subjectId == -2) {
-    return generate(section, slot + 1);
+    // If current slot is already occupied (break or previous assignment), proceed
+    if (timetable[section][slot].subjectId != -1) {
+        return generate(section, slot + 1);
     }
     
-   for (int i = 0; i < subjects.size(); i++) {
+    for (int i = 0; i < subjects.size(); i++) {
 
-    int subjectId = subjects[i].id;
-    int teacherId = findTeacher(subjectId);
+        int subjectId = subjects[i].id;
+        int teacherId = findTeacher(subjectId);
+        int duration = subjects[i].duration;
 
-    if (slot + subjects[i].duration > slots.size()) {
-        continue;
-    }
-    // Try every room
-    for (int j = 0; j < rooms.size(); j++) {
+        if (slot + duration > slots.size()) {
+            continue;
+        }
 
-        int roomId = rooms[j].id;
+        // Try every room
+        for (int j = 0; j < rooms.size(); j++) {
 
-        if (isValid(section, slot, subjectId, roomId)) {
+            int roomId = rooms[j].id;
 
-            timetable[section][slot].subjectId = subjectId;
-            timetable[section][slot].teacherId = teacherId;
-            timetable[section][slot].roomId = roomId;
-            if(subjects[i].duration > 1){
-                for(int j=1;j<subjects[i].duration;j++){
-                    timetable[section][slot+j].subjectId = subjectId;
-                    timetable[section][slot+j].teacherId = teacherId;
-                    timetable[section][slot+j].roomId = roomId;
+            if (isValid(section, slot, subjectId, roomId, duration)) {
+
+                for (int d = 0; d < duration; d++) {
+                    timetable[section][slot + d].subjectId = subjectId;
+                    timetable[section][slot + d].teacherId = teacherId;
+                    timetable[section][slot + d].roomId = roomId;
                 }
-            }
-            if (generate(section, slot + subjects[i].duration)) {
-                return true;
-            }
 
-            // Backtrack
-            timetable[section][slot].subjectId = -1;
-            timetable[section][slot].teacherId = -1;
-            timetable[section][slot].roomId = -1;
-            if(subjects[i].duration > 1){
-                for(int j=1;j<subjects[i].duration;j++){
-                    timetable[section][slot+j].subjectId = -1;
-                    timetable[section][slot+j].teacherId = -1;
-                    timetable[section][slot+j].roomId = -1;
+                if (generate(section, slot + duration)) {
+                    return true;
+                }
+
+                // Backtrack
+                for (int d = 0; d < duration; d++) {
+                    timetable[section][slot + d].subjectId = -1;
+                    timetable[section][slot + d].teacherId = -1;
+                    timetable[section][slot + d].roomId = -1;
                 }
             }
         }
     }
-   }
     return false;
 }
