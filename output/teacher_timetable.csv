@@ -1,55 +1,83 @@
 Teacher,Slot,Subject,Section,Room
-Mr Sharma,8-9,Mathematics,Room-101,Room-101
-Mr Sharma,9-10,Mathematics,Physics-Lab,Physics-Lab
-Mr Sharma,10-11,Mathematics,Room-102,Room-101
-Mr Sharma,11-12,Mathematics,Computer-Lab,Room-102
-Mr Sharma,12-1,FREE,,
-Mr Sharma,1-2,FREE,,
-Mr Sharma,2-3,FREE,,
-Mr Sharma,3-4,FREE,,
-Mr Sharma,4-5,FREE,,
-Ms Verma,8-9,Physics,Room-102,Room-102
-Ms Verma,9-10,Physics,Room-102,Room-102
-Ms Verma,10-11,FREE,,
-Ms Verma,11-12,Physics,Room-101,Room-101
-Ms Verma,12-1,Physics,Room-101,Room-101
-Ms Verma,1-2,Physics,Physics-Lab,Computer-Lab
-Ms Verma,2-3,Physics,Physics-Lab,Computer-Lab
-Ms Verma,3-4,Physics,Computer-Lab,Computer-Lab
-Ms Verma,4-5,Physics,Computer-Lab,Computer-Lab
-Mr Singh,8-9,Programming,Computer-Lab,Computer-Lab
-Mr Singh,9-10,Programming,Computer-Lab,Computer-Lab
-Mr Singh,10-11,Programming,Physics-Lab,Computer-Lab
-Mr Singh,11-12,Programming,Physics-Lab,Computer-Lab
-Mr Singh,12-1,Programming,Room-102,Room-102
-Mr Singh,1-2,Programming,Room-102,Room-102
-Mr Singh,2-3,Programming,Room-101,Room-101
-Mr Singh,3-4,Programming,Room-101,Room-101
-Mr Singh,4-5,FREE,,
-Ms Gupta,8-9,English,Physics-Lab,Physics-Lab
-Ms Gupta,9-10,English,Room-101,Room-101
-Ms Gupta,10-11,FREE,,
-Ms Gupta,11-12,FREE,,
-Ms Gupta,12-1,English,Computer-Lab,Computer-Lab
-Ms Gupta,1-2,FREE,,
-Ms Gupta,2-3,FREE,,
-Ms Gupta,3-4,FREE,,
-Ms Gupta,4-5,English,Room-102,Room-102
-Mr Kumar,8-9,FREE,,
-Mr Kumar,9-10,FREE,,
-Mr Kumar,10-11,FREE,,
-Mr Kumar,11-12,FREE,,
-Mr Kumar,12-1,Data Structures,Physics-Lab,Physics-Lab
-Mr Kumar,1-2,FREE,,
-Mr Kumar,2-3,Data Structures,Computer-Lab,Room-102
-Mr Kumar,3-4,Data Structures,Room-102,Room-102
-Mr Kumar,4-5,Data Structures,Room-101,Room-101
-Ms Mehta,8-9,FREE,,
-Ms Mehta,9-10,FREE,,
-Ms Mehta,10-11,FREE,,
-Ms Mehta,11-12,FREE,,
-Ms Mehta,12-1,FREE,,
-Ms Mehta,1-2,FREE,,
-Ms Mehta,2-3,FREE,,
-Ms Mehta,3-4,DBMS,Physics-Lab,Physics-Lab
-Ms Mehta,4-5,DBMS,Physics-Lab,Physics-Lab
+
+Dr. Sharma,8-9,Data Structures,CSE-A,Room-101
+Dr. Sharma,9-10,Data Structures,CSE-B,Room-102
+Dr. Sharma,10-11,Data Structures,CSE-C,Room-102
+Dr. Sharma,11-12,FREE,,
+Dr. Sharma,12-1,FREE,,
+Dr. Sharma,1-2,FREE,,
+Dr. Sharma,2-3,FREE,,
+Dr. Sharma,3-4,FREE,,
+Dr. Sharma,4-5,FREE,,
+Dr. Verma,8-9,Object Oriented Programming,CSE-B,Room-102
+Dr. Verma,9-10,Object Oriented Programming,CSE-A,Room-101
+Dr. Verma,10-11,FREE,,
+Dr. Verma,11-12,Object Oriented Programming,CSE-C,Room-102
+Dr. Verma,12-1,FREE,,
+Dr. Verma,1-2,FREE,,
+Dr. Verma,2-3,FREE,,
+Dr. Verma,3-4,FREE,,
+Dr. Verma,4-5,FREE,,
+Dr. Singh,8-9,FREE,,
+Dr. Singh,9-10,FREE,,
+Dr. Singh,10-11,FREE,,
+Dr. Singh,11-12,Mathematics,CSE-A,Room-101
+Dr. Singh,12-1,Mathematics,CSE-A,Room-101
+Dr. Singh,1-2,FREE,,
+Dr. Singh,2-3,FREE,,
+Dr. Singh,3-4,Mathematics,CSE-B,Room-102
+Dr. Singh,4-5,Mathematics,CSE-B,Room-102
+Dr. Gupta,8-9,Computer Networks,CSE-C,Room-103
+Dr. Gupta,9-10,FREE,,
+Dr. Gupta,10-11,Computer Networks,CSE-B,Room-101
+Dr. Gupta,11-12,FREE,,
+Dr. Gupta,12-1,FREE,,
+Dr. Gupta,1-2,FREE,,
+Dr. Gupta,2-3,Computer Networks,CSE-A,Room-101
+Dr. Gupta,3-4,FREE,,
+Dr. Gupta,4-5,FREE,,
+Dr. Mehta,8-9,FREE,,
+Dr. Mehta,9-10,FREE,,
+Dr. Mehta,10-11,FREE,,
+Dr. Mehta,11-12,FREE,,
+Dr. Mehta,12-1,Database Management Systems,CSE-B,Room-102
+Dr. Mehta,1-2,Database Management Systems,CSE-C,Room-102
+Dr. Mehta,2-3,FREE,,
+Dr. Mehta,3-4,Database Management Systems,CSE-A,Room-101
+Dr. Mehta,4-5,FREE,,
+Dr. Joshi,8-9,FREE,,
+Dr. Joshi,9-10,FREE,,
+Dr. Joshi,10-11,FREE,,
+Dr. Joshi,11-12,FREE,,
+Dr. Joshi,12-1,FREE,,
+Dr. Joshi,1-2,Operating Systems,CSE-B,Room-101
+Dr. Joshi,2-3,FREE,,
+Dr. Joshi,3-4,Operating Systems,CSE-C,Room-103
+Dr. Joshi,4-5,Operating Systems,CSE-A,Room-101
+Dr. Kapoor,8-9,FREE,,
+Dr. Kapoor,9-10,FREE,,
+Dr. Kapoor,10-11,FREE,,
+Dr. Kapoor,11-12,FREE,,
+Dr. Kapoor,12-1,FREE,,
+Dr. Kapoor,1-2,FREE,,
+Dr. Kapoor,2-3,FREE,,
+Dr. Kapoor,3-4,FREE,,
+Dr. Kapoor,4-5,Python Programming,CSE-C,Room-103
+Dr. Mishra,8-9,FREE,,
+Dr. Mishra,9-10,FREE,,
+Dr. Mishra,10-11,FREE,,
+Dr. Mishra,11-12,FREE,,
+Dr. Mishra,12-1,FREE,,
+Dr. Mishra,1-2,FREE,,
+Dr. Mishra,2-3,FREE,,
+Dr. Mishra,3-4,FREE,,
+Dr. Mishra,4-5,FREE,,
+Dr. Rao,8-9,FREE,,
+Dr. Rao,9-10,FREE,,
+Dr. Rao,10-11,FREE,,
+Dr. Rao,11-12,FREE,,
+Dr. Rao,12-1,FREE,,
+Dr. Rao,1-2,FREE,,
+Dr. Rao,2-3,FREE,,
+Dr. Rao,3-4,FREE,,
+Dr. Rao,4-5,FREE,,

@@ -5,6 +5,14 @@
 #include <filesystem>
 #include <sstream>
 #include <algorithm>
+#include <windows.h>
+#include <shobjidl.h>
+
+#ifdef _MSC_VER
+#pragma comment(lib, "ole32.lib")
+#pragma comment(lib, "shell32.lib")
+#endif
+
 #include "model/Subjects.h"
 #include "model/Teacher.h"
 #include "model/Sections.h"
@@ -41,16 +49,59 @@ static string trim(const string& str) {
     return str.substr(first, (last - first + 1));
 }
 
-// Find input directory whether run from project root or workspace root
-string findInputDirectory() {
-    if (fs::exists("input") && fs::is_directory("input")) {
-        return "input";
+string selectFolder(){
+    IFileDialog* pfd = NULL;
+    string folderPath = "";
+
+    HRESULT hr = CoCreateInstance(
+        CLSID_FileOpenDialog,
+        NULL,
+        CLSCTX_INPROC_SERVER,
+        IID_IFileDialog,
+        (void**)&pfd
+    );
+
+    if(SUCCEEDED(hr)){
+        DWORD options;
+        pfd->GetOptions(&options);
+        pfd->SetOptions(options | FOS_PICKFOLDERS);
+
+        hr = pfd->Show(NULL);
+
+        if(SUCCEEDED(hr)){
+            IShellItem* item = NULL;
+
+            hr = pfd->GetResult(&item);
+
+            if(SUCCEEDED(hr)){
+                PWSTR path = NULL;
+
+                hr = item->GetDisplayName(
+                    SIGDN_FILESYSPATH,
+                    &path
+                );
+
+                if(SUCCEEDED(hr)){
+                    char buffer[MAX_PATH];
+
+                    WideCharToMultiByte(
+                        CP_UTF8, 0, path, -1,
+                        buffer, MAX_PATH, NULL, NULL
+                    );
+
+                    folderPath = buffer;
+
+                    CoTaskMemFree(path);
+                }
+
+                item->Release();
+            }
+        }
+
+        pfd->Release();
     }
-    if (fs::exists("TIME-TABLE-GENERATOR-AND-CONFLICTRESOLVER/input") && 
-        fs::is_directory("TIME-TABLE-GENERATOR-AND-CONFLICTRESOLVER/input")) {
-        return "TIME-TABLE-GENERATOR-AND-CONFLICTRESOLVER/input";
-    }
-    return "";
+
+    return folderPath;
 }
 
 // ---------------Take input from files------------------
@@ -441,70 +492,24 @@ void takeBreaksFromFile(string folder)
 
 int main()
 {
-    cout << "Program started!" << endl;
+    CoInitialize(NULL);
 
-    string inputBase = findInputDirectory();
-    if (inputBase.empty())
-    {
-        cout << "No 'input' directory found! Please make sure the 'input' folder exists.\n";
+    string inputFolder = selectFolder();
+
+    if (inputFolder.empty()) {
+        cout << "No folder selected" << endl;
+        CoUninitialize();
         return 0;
     }
 
-    if (inputBase == "TIME-TABLE-GENERATOR-AND-CONFLICTRESOLVER/input") {
+    cout << "Selected Folder: " << inputFolder << endl;
+
+    if (fs::exists("TIME-TABLE-GENERATOR-AND-CONFLICTRESOLVER")) {
         outputFolder = "TIME-TABLE-GENERATOR-AND-CONFLICTRESOLVER/output";
     } else {
         outputFolder = "output";
     }
     fs::create_directories(outputFolder);
-
-    vector<string> folders;
-
-    for (const auto& entry : fs::directory_iterator(inputBase))
-    {
-        if (entry.is_directory())
-        {
-            folders.push_back(entry.path().string());
-        }
-    }
-
-    if (folders.empty())
-    {
-        if (fs::exists(inputBase + "/subjects.csv")) {
-            folders.push_back(inputBase);
-        } else {
-            cout << "No input folders or CSV files found inside " << inputBase << "!\n";
-            return 0;
-        }
-    }
-
-    sort(folders.begin(), folders.end());
-
-    cout << "Choose an input folder:\n";
-
-    for (size_t i = 0; i < folders.size(); i++)
-    {
-        cout << i + 1 << ". "
-             << fs::path(folders[i]).filename().string()
-             << "\n";
-    }
-
-    int choice;
-    cout << "Enter choice: ";
-    if (!(cin >> choice))
-    {
-        cout << "Invalid input!\n";
-        return 0;
-    }
-
-    if (choice < 1 || choice > static_cast<int>(folders.size()))
-    {
-        cout << "Invalid choice!\n";
-        return 0;
-    }
-
-    inputFolder = folders[choice - 1];
-
-    cout << "Selected folder: " << inputFolder << "\n";
 
     takeInputFromFiles(inputFolder);
 
@@ -520,7 +525,6 @@ int main()
 
     if (generate(0, 0)) {
         cout << "Timetable generated successfully!\n";
-        displayTimetable();
         writeTimetable();
         writeSectionCSV();
         writeTeacherCSV();
@@ -530,5 +534,6 @@ int main()
         cout << "No valid timetable possible!\n";
     }
 
+    CoUninitialize();
     return 0;
 }
