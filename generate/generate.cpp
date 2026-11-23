@@ -7,7 +7,7 @@ using namespace std;
 // Global variables from main.cpp
 
 extern vector<Subject> subjects;
-extern vector<Teacher> teachers;
+extern vector<Teacher> teachers; 
 extern vector<Section> sections;
 extern vector<string> slots;
 extern vector<vector<Class>> timetable;
@@ -48,7 +48,7 @@ bool teacherBusy(int teacherId, int slot){
 
 bool roomBusy(int roomId, int slot){
     for (int i = 0; i < sections.size(); i++) {
-        if (timetable[i][slot].roomId == roomId) {
+        if (timetable[i][slot].roomId == roomId) { 
             return true;
         }
     }
@@ -75,7 +75,7 @@ bool sectionBusy(int section, int slot) {
 }
 
 
-// Currently Handling conditions:
+// Currently Handling conditions: 
 // 1. Teacher exists
 // 2. Subject not already assigned in this section
 // 3. For all slots across the subject duration:
